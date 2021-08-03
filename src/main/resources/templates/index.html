@@ -1,0 +1,41 @@
+
+<html xmlns:th="http//www.thymeleaf.org">
+    <head th:replace="layout/plantilla :: head">
+        <title>Inicio</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <header th:replace="layout/plantilla :: header"></header>
+        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/agregar}">[[#{persona.crear}]]</a>
+        <div th:if="${personas != null and !personas.empty}">
+            <table border="1">
+                <tr>
+                    <th>[[#{persona.nombre}]]</th>
+                    <th>[[#{persona.apellido}]]</th>
+                    <th>[[#{persona.email}]]</th>
+                    <th>[[#{persona.telefono}]]</th>
+                    <th sec:authorize="hasRole('ROLE_ADMIN')">[[#{accion.editar}]]</th>
+                    <th sec:authorize="hasRole('ROLE_ADMIN')">[[#{accion.eliminar}]]</th>
+
+                </tr>
+                <tr th:each="persona : ${personas}">
+                    <td th:text="${persona.nombre}">mostar nombre</td>
+                    <td th:text="${persona.apellido}">mostrar apellido</td>
+                    <td th:text="${persona.email}">mostrar email</td>
+                    <td th:text="${persona.telefono}"> mostrar telefono</td>
+                    <td sec:authorize="hasRole('ROLE_ADMIN')"> <a th:href="@{/editar/} + ${persona.id_persona}" th:text="#{accion.editar}"/> </td>
+                    <td sec:authorize="hasRole('ROLE_ADMIN')"> <a th:href="@{/eliminar/} + ${persona.id_persona}" th:text="#{accion.eliminar}"/> </td>
+
+
+                </tr>
+            </table>
+        </div>
+        <div th:if="${personas == null or personas.empty}">
+            [[#{persona.vacio}]]
+        </div>
+        <fooder th:replace="layout/plantilla :: fooder"></fooder>
+
+
+
+    </body>
+</html>
